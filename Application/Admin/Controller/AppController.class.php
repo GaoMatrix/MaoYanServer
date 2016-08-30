@@ -1,8 +1,51 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
+use Think\Controller\RestController;
 
-class IndexController extends Controller {
+class AppController extends RestController {
+
+    Public function rest() {
+     switch ($this->_method){
+      case 'get': // get请求处理代码
+           if ($this->_type == 'html'){
+           }elseif($this->_type == 'xml'){
+           }
+           break;
+      case 'put': // put请求处理代码
+           break;
+      case 'post': {
+         	$app = M('App');
+            if ($data = $app->create()) {
+                if ($app->add($data)) {
+                    $this->response('Success', 'json');
+                } else {
+                    $this->response('Fail', 'json');
+                }
+            } else {
+                    $this->response('Data illeagl', 'json');
+            }
+            $this->response('Success', 'json');
+            break;
+        }
+     }
+   }
+	
+	public function read() {
+        $app = M('App');
+        if ($data = $app->create()) {
+            if ($app->add($data)) {
+                $this->response('Success', 'json');
+            } else {
+                $this->response('Fail', 'json');
+            }
+        } else {
+                $this->response('Data illeagl', 'json');
+        }
+	}
+
+
+	
+	
     public function index(){
     	require 'conf.php';
     	// 简单推送示例
@@ -30,7 +73,7 @@ class IndexController extends Controller {
     		->addTag(array('tag1', 'tag2'))
     		->addRegistrationId($registration_id)
     		->setNotificationAlert('Hi, JPush')
-    		->iosNotification('Hello IOS', array(
+    		/* ->iosNotification('Hello IOS', array(
     				'sound' => 'hello jpush',
     				'badge' => 2,
     				'content-available' => true,
@@ -39,7 +82,7 @@ class IndexController extends Controller {
     						'key' => 'value',
     						'jiguang'
     				),
-    		))
+    		)) */
     		->androidNotification('Hello Android', array(
     				'title' => 'hello jpush',
     				'build_id' => 2,
